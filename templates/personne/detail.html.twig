@@ -1,0 +1,14 @@
+{% extends 'template.html.twig' %}
+
+{% block body %}
+
+<div class="alert alert-success">
+
+    {{ personne.firstname | capitalize}} {{ personne.name | capitalize }} a {{ personne.age }} ans
+</div>
+{% endblock %}
+
+{% block title %}
+    {{ personne.firstname | capitalize}} {{ personne.name | capitalize }}
+{% endblock %}
+
