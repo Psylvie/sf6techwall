@@ -1,0 +1,12 @@
+{% extends 'heritage.html.twig' %}
+
+{% block title %}
+
+    nouveau titre
+{% endblock %}
+{% block contenu %}
+{#    pour recuperer le contenu du bloc parent : #}
+    {{ parent() }}
+{# seuleument la ligne de dessous pour modifier le bloc parent : #}
+    nouveau contenu de twig
+{% endblock %}
