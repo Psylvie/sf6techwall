@@ -21,8 +21,7 @@ class PersonneFixture extends Fixture
             $personne->setAge($faker->numberBetween(18, 65));
             $manager->persist($personne);
         }
-        // $product = new Product();
-        // $manager->persist($product);
+
 
         $manager->flush();
     }

@@ -96,22 +96,22 @@ class PersonneController extends AbstractController
         $entityManager = $doctrine->getManager();
 
 
-//        $personne2 = new Personne();
-//
-//        $personne2->setFirstname('vivie');
-//        $personne2->setName('bobo');
-//        $personne2->setAge('12');
+        $personne = new Personne();
+
+        $personne->setFirstname('vivie');
+        $personne->setName('bobo');
+        $personne->setAge('12');
 
 
         // ajout operation insertion
-//        $entityManager->persist($personne);
+        $entityManager->persist($personne);
 //        $entityManager->persist($personne2);
 
         //execute
         $entityManager->flush();
 
         return $this->render('personne/detail.html.twig', [
-//            'personne'=>$personne,
+            'personne'=>$personne,
         ]);
     }
 
