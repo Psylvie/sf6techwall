@@ -12,7 +12,7 @@ trait TimeStampTrait
     private ?\DateTimeInterface $createdAt = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $updateAt = null;
+    private ?\DateTimeInterface $updatedAt = null;
 
 
     public function getCreatedAt(): ?\DateTimeInterface
@@ -27,14 +27,14 @@ trait TimeStampTrait
         return $this;
     }
 
-    public function getUpdateAt(): ?\DateTimeInterface
+    public function getUpdatedAt(): ?\DateTimeInterface
     {
-        return $this->updateAt;
+        return $this->updatedAt;
     }
 
-    public function setUpdateAt(?\DateTimeInterface $updateAt): self
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
-        $this->updateAt = $updateAt;
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }
@@ -43,7 +43,7 @@ trait TimeStampTrait
     public function onPrePersist(){
 
         $this->createdAt = new \DateTime();
-        $this->updateAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
 
     }
 

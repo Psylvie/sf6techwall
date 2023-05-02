@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Personne;
+use App\Form\PersonneType;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 #[Route('personne')]
@@ -90,29 +92,48 @@ class PersonneController extends AbstractController
 //
 //    }
 
-    #[Route('/add', name: 'personne.add')]
-    public function addPersonne(ManagerRegistry $doctrine): Response
+    #[Route('/edit/{id?0}', name: 'personne.edit')]
+    public function addPersonne(Personne $personne = null, ManagerRegistry $doctrine, Request $request): Response
     {
-        $entityManager = $doctrine->getManager();
+
+        if (!$personne){
+            $personne = new Personne();
+        }
 
 
-        $personne = new Personne();
 
-        $personne->setFirstname('vivie');
-        $personne->setName('bobo');
-        $personne->setAge('12');
+        // crée moi un formulaire (description objet du formulaire , l'objet )
+        //$personne = l'image du formulaire
+        $form = $this->createForm(PersonneType::class, $personne);
+        $form->remove('createdAt');
+        $form->remove('updatedAt');
+        // formulaire va aller traiter la requete
+        $form->handleRequest($request);
+        // formulaire soumis?
+        if ($form->isSubmitted()){
+            // si oui : ajout dans bdd
+            $entityManager = $doctrine->getManager();
+            $entityManager->persist($personne);
+            $entityManager->flush();
+
+            // message succes
+            $this->addFlash('success', 'Votre profil a été enregistré');
 
 
-        // ajout operation insertion
-        $entityManager->persist($personne);
-//        $entityManager->persist($personne2);
+            //redirection vers liste personne
+            return $this->redirectToRoute('personne.list');
+        }else{
 
-        //execute
-        $entityManager->flush();
+            //si non : affiche formulaire
 
-        return $this->render('personne/detail.html.twig', [
-            'personne'=>$personne,
-        ]);
+            return $this->render('personne/add-personne.html.twig', [
+
+                'form'=> $form->createView()
+            ]);
+        }
+
+
+
     }
 
     #[Route('/delete/{id}', name: 'personne.delete')]
