@@ -4,14 +4,15 @@ namespace App\Controller;
 
 use App\Entity\Personne;
 use App\Form\PersonneType;
+use App\Service\MailerService;
+use App\Service\UploaderService;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\String\Slugger\SluggerInterface;
+
 
 #[Route('personne')]
 class PersonneController extends AbstractController
@@ -96,14 +97,20 @@ class PersonneController extends AbstractController
 //    }
 
     #[Route('/edit/{id?0}', name: 'personne.edit')]
-    public function addPersonne(Personne $personne = null, ManagerRegistry $doctrine, Request $request, SluggerInterface $slugger): Response
+    public function addPersonne(
+        Personne $personne = null,
+        ManagerRegistry $doctrine,
+        Request $request,
+        UploaderService $uploaderService,
+        MailerService $mailer,
+    ): Response
     {
+        $new = false;
 
         if (!$personne){
+            $new = true;
             $personne = new Personne();
         }
-
-
 
         // crée moi un formulaire (description objet du formulaire , l'objet )
         //$personne = l'image du formulaire
@@ -123,31 +130,29 @@ class PersonneController extends AbstractController
             // this condition is needed because the 'brochure' field is not required
             // so the PDF file must be processed only when a file is uploaded
             if ($photo) {
-                $originalFilename = pathinfo($photo->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$photo->guessExtension();
+                $directory = $this->getParameter('personne_directory');
 
-                // Move the file to the directory where brochures are stored
-                try {
-                    $photo->move(
-                        $this->getParameter('personne_directory'),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
-                }
+
 
                 // updates the 'brochureFilename' property to store the PDF file name
                 // instead of its contents
-                $personne->setImage($newFilename);
+                $personne->setImage($uploaderService->uploadFile($photo, $directory));
             }
             $entityManager = $doctrine->getManager();
             $entityManager->persist($personne);
             $entityManager->flush();
 
+            if($new){
+                $message = 'a été ajoutée avec succés ';
+            }else{
+                $message = ' a été mis a jour avec succés';
+            }
+            $mailMessage = $personne->getFirstname().' '.$personne->getName().' '.$message;
+
+
             // message succes
             $this->addFlash('success', 'Votre profil a été enregistré');
+            $mailer->sendEmail(content: $mailMessage);
 
 
             //redirection vers liste personne
