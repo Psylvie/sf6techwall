@@ -5,6 +5,9 @@
 <div class="alert alert-success">
 
     {{ personne.firstname | capitalize}} {{ personne.name | capitalize }} a {{ personne.age }} ans
+    {% if app.user %}
+    <p> Created by : {{ app.user.email }}</p>
+    {% endif %}
 </div>
 {% endblock %}
 
