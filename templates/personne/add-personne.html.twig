@@ -6,6 +6,7 @@
     <div class="row">
         <div class="col">{{ form_row(form.firstname) }}</div>
         <div class="col">{{ form_row(form.name) }}</div>
+        <div class="badge bg-{{ personne.getAgeBadgeColor }}">{{ personne.age }}</div>
     </div>
 
     {{ form_rest(form) }}

@@ -168,8 +168,22 @@ class Personne
 
         return $this;
     }
+    public function getAgeBadgeColor():string
+    {
+        {
+            $age = $this->getAge();
 
+            if ($age === null) {
+                return 'danger';
+            } elseif ($age < 55) {
+                return 'warning';
+            } else {
+                return 'success';
+            }
+        }
 
-
-
+    }
 }
+
+
+

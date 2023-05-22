@@ -11,6 +11,7 @@
     {%  for personne in personnes %}
     <div class="card" style="width: 18rem;">
         <div class="card-body">
+
             <h5 class="card-title">{{ personne.name | capitalize }}</h5>
             <h6 class="card-subtitle mb-2 text-muted">{{ personne.name | capitalize }} {{ personne.firstname | capitalize }}</h6>
             <p class="card-text">Age : {{ personne.age }} </p>

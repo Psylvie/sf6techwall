@@ -51,6 +51,8 @@ class PersonneController extends AbstractController
     #[Route('/alls/{page?1}/{nbre?12}', name: 'personne.list.alls')]
     public function indexAlls(ManagerRegistry $doctrine, $page, $nbre): Response
     {
+
+
         $repository = $doctrine->getRepository(Personne::class);
 //        findy:
        $personnes = $repository->findBy([], [], $nbre, ($page -1) * $nbre);
@@ -59,12 +61,18 @@ class PersonneController extends AbstractController
 //       24
         $nbrePage = ceil($nbPersonne/$nbre);
 
+
+
+
+
         return $this->render('personne/index.html.twig',
             ['personnes'=>$personnes,
              'isPaginated'=>true,
              'nbrePage'=> $nbrePage,
              'page'=>$page,
-             'nbre'=>$nbre]);
+             'nbre'=>$nbre,
+//              'ageBadgeColor'=>$ageBadgeColor,
+                ]);
 
     }
 
@@ -105,8 +113,10 @@ class PersonneController extends AbstractController
         MailerService $mailer,
     ): Response
     {
+
         $new = false;
 
+        $ageBadgeColor = $personne->getAgeBadgeColor();
         if (!$personne){
             $new = true;
             $personne = new Personne();
@@ -165,7 +175,10 @@ class PersonneController extends AbstractController
 
             return $this->render('personne/add-personne.html.twig', [
 
-                'form'=> $form->createView()
+                'form'=> $form->createView(),
+                'personne' => $personne,
+                'ageBadgeColor'=>$ageBadgeColor,
+
             ]);
         }
 
