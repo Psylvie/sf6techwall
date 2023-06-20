@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Personne;
 use App\Form\PersonneType;
 use App\Service\MailerService;
+use App\Service\PdfService;
 use App\Service\UploaderService;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,6 +25,16 @@ class PersonneController extends AbstractController
        $personnes = $repository->findAll();
        return $this->render('personne/index.html.twig',
        ['personnes'=>$personnes]);
+
+    }
+    #[Route('/pdf/{id}', name: 'personne.pdf')]
+    public function generatePdfPersonne(Personne $personne = null, PdfService $pdf)
+    {
+        $html = $this->render('personne/details.html.twig', [
+            'personne' =>$personne
+
+        ]);
+        $pdf->showPdfFile($html);
 
     }
 
