@@ -9,6 +9,10 @@
     <p> Created by : {{ app.user.email }}</p>
     {% endif %}
 </div>
+    TAG
+    {% for tag in personne.tags %}
+        Tag {{ tag.name }}
+    {% endfor %}
 {% endblock %}
 
 {% block title %}

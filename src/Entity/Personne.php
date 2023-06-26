@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\PersonneRepository;
+use App\Traits\TagTrait;
 use App\Traits\TimeStampTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -15,6 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Personne
 {
     use TimeStampTrait;
+    use TagTrait;
 
 
     #[ORM\Id]
@@ -53,6 +55,11 @@ class Personne
     public function __construct()
     {
         $this->hobbies = new ArrayCollection();
+        $this->tags = new ArrayCollection();
+    }
+    public function __toString(): string
+    {
+        return $this->name;
     }
 
     public function getId(): ?int
@@ -182,6 +189,13 @@ class Personne
             }
         }
 
+    }
+    /**
+     * @return Collection|Tag[]
+     */
+    public function getTags(): Collection
+    {
+        return $this->tags;
     }
 }
 

@@ -96,24 +96,14 @@ class PersonneController extends AbstractController
             $this->addFlash('error', "la personne avec l'id $id n'existe pas");
             return $this->redirectToRoute('personne.list');
         }
+        foreach ($personne->getTags() as $tag) {
+            echo $tag->getName();}
         return $this->render('personne/detail.html.twig',
             ['personne'=>$personne]);
 
     }
 
-    // meme resultat avec version param converter :
 
-//    #[Route('/{id<\d+>}', name: 'personne.detail')]
-//    public function detail(Personne $personne  null): Response
-//    {
-//        if (!$personne){
-//            $this->addFlash('error', "la personne n'existe pas");
-//            return $this->redirectToRoute('personne.list');
-//        }
-//        return $this->render('personne/detail.html.twig',
-//            ['personne'=>$personne]);
-//
-//    }
 
     #[Route('/edit/{id?0}', name: 'personne.edit')]
     public function addPersonne(
@@ -127,7 +117,7 @@ class PersonneController extends AbstractController
 
         $new = false;
 
-        $ageBadgeColor = $personne->getAgeBadgeColor();
+//        $ageBadgeColor = $personne->getAgeBadgeColor();
         if (!$personne){
             $new = true;
             $personne = new Personne();
@@ -188,7 +178,7 @@ class PersonneController extends AbstractController
 
                 'form'=> $form->createView(),
                 'personne' => $personne,
-                'ageBadgeColor'=>$ageBadgeColor,
+//                'ageBadgeColor'=>$ageBadgeColor,
 
             ]);
         }
