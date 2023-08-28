@@ -1,0 +1,13 @@
+{% extends 'template.html.twig' %}
+
+{% block body %}
+    <h1>Liste des Pièces Jointes</h1>
+
+    <ul>
+        {% for attachment in attachments %}
+            <li>{{ attachment.description }} - {{ attachment.type }}</li>
+
+        {% endfor %}
+    </ul>
+{% endblock %}
+

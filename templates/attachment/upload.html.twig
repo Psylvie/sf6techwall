@@ -1,0 +1,19 @@
+{% extends 'template.html.twig' %}
+
+{% block title %}Upload d'une pièce jointe{% endblock %}
+
+{% block body %}
+    <h1>Upload d'une pièce jointe</h1>
+
+    {{ form_start(form) }}
+
+    {{ form_row(form.entityname) }}
+    {{ form_row(form.filepath) }}
+    {{ form_row(form.description) }}
+    {{ form_row(form.entityId) }}
+    {{ form_row(form.type) }}
+
+    <button type="submit" class="btn btn-primary">Envoyer</button>
+
+    {{ form_end(form) }}
+{% endblock %}
