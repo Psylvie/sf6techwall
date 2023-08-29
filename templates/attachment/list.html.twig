@@ -2,10 +2,11 @@
 
 {% block body %}
     <h1>Liste des Pièces Jointes</h1>
-
     <ul>
         {% for attachment in attachments %}
-            <li>{{ attachment.description }} - {{ attachment.type }}</li>
+            <li>{{ attachment.description }} - {{ attachment.type }} - </li>
+            <a href="{{ path('attachment.delete', {'id': attachment.id}) }}" class="btn btn-danger">Delete</a>
+            <a href="{{ path('attachment.download', {'id': attachment.id}) }}"> Download</a>
 
         {% endfor %}
     </ul>

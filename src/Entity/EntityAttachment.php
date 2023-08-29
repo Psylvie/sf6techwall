@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\EntityAttachmentRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 #[ORM\Entity(repositoryClass: EntityAttachmentRepository::class)]
 class EntityAttachment

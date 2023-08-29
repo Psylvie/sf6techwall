@@ -21,6 +21,23 @@ class EntityAttachmentRepository extends ServiceEntityRepository
         parent::__construct($registry, EntityAttachment::class);
     }
 
+    public function findByType(string $type)
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.type = :type')
+            ->setParameter('type', $type)
+            ->getQuery()
+            ->getResult();
+    }
+    public function findByEntityId(?int $entityId)
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.entityId = :entityId')
+            ->setParameter('entityId', $entityId)
+            ->getQuery()
+            ->getResult();
+    }
+
     public function save(EntityAttachment $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);

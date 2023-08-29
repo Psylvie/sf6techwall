@@ -1,0 +1,18 @@
+{% extends 'template.html.twig' %}
+
+{% block body %}
+    <h1>Attachments by Entity ID</h1>
+
+    <ul>
+        {% for attachment in attachments %}
+            <li>
+                <strong>ID:</strong> {{ attachment.id }}<br>
+                <strong>Entity Name:</strong> {{ attachment.entityname }}<br>
+                <strong>File Path:</strong> {{ attachment.filepath }}<br>
+                <strong>Description:</strong> {{ attachment.description }}<br>
+                <strong>Type:</strong> {{ attachment.type }}<br>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+
