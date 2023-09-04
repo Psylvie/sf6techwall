@@ -14,8 +14,8 @@
 
     </title>
     <link href="{{ asset('assets/js/tagsinput/bootstrap-tagsinput.css') }} " />
-{#    <link href="{{ asset('node_modules/select2/dist/css/select2.min.css') }}" rel="stylesheet" />#}
-{#    <link href="{{ asset('node_modules/@fortawesome/fontawesome-free/css/all.css') }}" rel="stylesheet" />#}
+    <link href="{{ asset('assets/css/styles.css') }}" rel="stylesheet" />
+    <link href="{{ asset('node_modules/@fortawesome/fontawesome-free/css/all.css') }}" rel="stylesheet" />
 
     {% block stylesheets %}
         {{ encore_entry_link_tags('app') }}
@@ -174,9 +174,9 @@
 <script src="{{ asset('assets/js/main.js') }}"></script>
 
 
-{#<script src="{{ asset('node_modules/jquery/dist/jquery.min.js') }}"></script>#}
-{#<script src="{{ asset('node_modules/select2/dist/js/select2.min.js') }}"></script>#}
-{#<script src="{{ asset('node_modules/@fortawesome/fontawesome-free/js/all.js') }}"></script>#}
+<script src="{{ asset('node_modules/jquery/dist/jquery.min.js') }}"></script>
+<script src="{{ asset('node_modules/select2/dist/js/select2.min.js') }}"></script>
+<script src="{{ asset('node_modules/@fortawesome/fontawesome-free/js/all.js') }}"></script>
 
 {% block javascripts %}
     {{ encore_entry_script_tags('app') }}
