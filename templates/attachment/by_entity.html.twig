@@ -1,18 +1,53 @@
 {% extends 'template.html.twig' %}
 
 {% block body %}
-    <h1>Attachments by Entity ID</h1>
+<div class="container-fluid mt-4">
+    <div class="d-flex flex-row">
+        <h1 class="me-3">Liste des Pièces Jointes </h1>
+        <div {{ stimulus_controller('modal-form', {
+            formUrl: path('upload_attachment')
+        }) }}>
+            <button
+                    class="btn btn-dark"
+                    data-action="modal-form#openModal"
+            >Nouveau</button>
+            {{ include('_modal.html.twig', {
+                modalTitle: 'Ajouter une nouvelle pièce jointe',
+            }) }}
+        </div>
+    </div>
 
-    <ul>
+{#    <a href="{{ path('upload_attachment') }}" class="btn btn-dark">NOUVEAU</a>#}
+
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nom</th>
+            <th>Type</th>
+            <th>ID de la personne</th>
+            <th>Nom de la personne</th>
+            <th>Fichier</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
         {% for attachment in attachments %}
-            <li>
-                <strong>ID:</strong> {{ attachment.id }}<br>
-                <strong>Entity Name:</strong> {{ attachment.entityname }}<br>
-                <strong>File Path:</strong> {{ attachment.filepath }}<br>
-                <strong>Description:</strong> {{ attachment.description }}<br>
-                <strong>Type:</strong> {{ attachment.type }}<br>
-            </li>
+            <tr>
+                <td>{{ attachment.id }}</td>
+                <td>{{ attachment.description }}</td>
+                <td>{{ attachment.type }}</td>
+                <td>{{ attachment.entityId }}</td>
+                <td>{{ attachment.entityname }}</td>
+                <td>{{ attachment.filepath }}</td>
+                <td>
+                    <a href="{{ path('attachment.delete', {'id': attachment.id}) }}" class="btn btn-danger">Delete</a>
+                    <a href="{{ path('attachment.download', {'id': attachment.id}) }}" class="btn btn-dark">Download</a>
+                </td>
+            </tr>
         {% endfor %}
-    </ul>
+        </tbody>
+    </table>
+</div>>
 {% endblock %}
 

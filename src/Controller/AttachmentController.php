@@ -49,11 +49,18 @@ class AttachmentController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash('success', 'Pièce jointe téléchargée avec succès.');
+
             return $this->redirectToRoute('attachment_list');
         }
-        return $this->render('attachment/upload.html.twig', [
-            'form'=>$form->createView(),
+       $template = $request->isXmlHttpRequest() ? '_form.html.twig' : 'upload.html.twig';
+
+//        return $this->render('attachment/upload.html.twig', [
+//            'form'=>$form->createView(),
+//        ]);
+        return $this->render('attachment/' . $template, [
+            'form' => $form->createView(),
         ]);
+
     }
     #[Route('/attachments', name: 'attachment_list')]
     public function listAttachment(EntityManagerInterface $entityManager){
@@ -96,10 +103,10 @@ class AttachmentController extends AbstractController
     }
 
 //    http://127.0.0.1:8000/attachments/by-entity/8
-    #[Route('/attachments/by-entity/{entityId}', name: 'attachment.by.entity')]
-    public function getAttachmentByEntity(?int $entityId,EntityAttachmentRepository $attachmentRepository): Response
+    #[Route('/attachments/{entityname}/{entityId}', name: 'attachment.by.entity')]
+    public function getAttachmentByEntity(?int $entityId, string $entityname,EntityAttachmentRepository $attachmentRepository): Response
     {
-        $attachments = $attachmentRepository->findByEntityId($entityId);
+        $attachments = $attachmentRepository->findByEntityIdAndEntityName($entityId, $entityname);
 
         return $this->render('attachment/by_entity.html.twig', [
             'attachments' => $attachments,

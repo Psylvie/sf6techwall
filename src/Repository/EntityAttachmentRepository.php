@@ -37,6 +37,16 @@ class EntityAttachmentRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+    public function findByEntityIdAndEntityName(?int $entityId, ?string $entityname)
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.entityId = :entityId')
+            ->andWhere('a.entityname = :entityname')
+            ->setParameter('entityId', $entityId)
+            ->setParameter('entityname', $entityname)
+            ->getQuery()
+            ->getResult();
+    }
 
     public function save(EntityAttachment $entity, bool $flush = false): void
     {

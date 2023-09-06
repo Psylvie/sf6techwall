@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\EntityAttachment;
 use App\Entity\Personne;
 use App\Form\PersonneType;
 use App\Service\MailerService;
@@ -96,6 +97,8 @@ class PersonneController extends AbstractController
             $this->addFlash('error', "la personne avec l'id $id n'existe pas");
             return $this->redirectToRoute('personne.list');
         }
+        $attachmentRepository = $doctrine->getRepository(EntityAttachment::class);
+        $attachments = $attachmentRepository->findByEntityIdAndEntityName($id, 'Personne');
         foreach ($personne->getTags() as $tag) {
             echo $tag->getName();}
         return $this->render('personne/detail.html.twig',
