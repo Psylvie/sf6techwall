@@ -1,9 +1,12 @@
 <div
+        id="modal-form"
         class="modal fade"
         tabindex="-1"
         aria-hidden="true"
         data-modal-form-target="modal"
 >
+    <!-- Conteneur principal de la modal -->
+
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -12,15 +15,32 @@
                         data-bs-dismiss="modal"
                         aria-label="Close"></button>
             </div>
-            <div class="modal-body" data-modal-form-target="modalBody">
-                {{ modalContent|default('Loading...') }}
+            <div data-reload-content-target = "content">
+{#                {{ include('attachment/_list.html.twig') }}#}
+
             </div>
+
+            <!-- Corps de la modal -->
+
+            <div class="modal-body"
+                 data-modal-form-target="modalBody"
+                 data-action="submit->modal-form#submitForm"
+            >
+                {{ modalContent|default('Loading...') }}
+
+            </div>
+
+            <!-- footer de la modal, avec les boutons -->
+
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary"
                         data-bs-dismiss="modal">Cancel
                 </button>
+
+                <!-- Bouton pour déclencher la soumission du form -->
+
                 <button type="button" class="btn btn-primary" data-action="modal-form#submitForm">
-                    Save
+                    Enregistrer
                 </button>
             </div>
         </div>

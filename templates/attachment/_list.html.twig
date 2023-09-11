@@ -1,0 +1,30 @@
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Nom</th>
+        <th>Type</th>
+        <th>ID de la personne</th>
+        <th>Nom de la personne</th>
+        <th>Fichier</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for attachment in attachments %}
+        <tr>
+            <td>{{ attachment.id }}</td>
+            <td>{{ attachment.description }}</td>
+            <td>{{ attachment.type }}</td>
+            <td>{{ attachment.entityId }}</td>
+            <td>{{ attachment.entityname }}</td>
+            <td>{{ attachment.filepath }}</td>
+            <td>
+                <a href="{{ path('attachment.delete', {'id': attachment.id}) }}" class="btn btn-danger">Delete</a>
+                <a href="{{ path('attachment.download', {'id': attachment.id}) }}" class="btn btn-dark">Download</a>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

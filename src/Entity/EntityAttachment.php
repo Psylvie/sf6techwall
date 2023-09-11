@@ -17,7 +17,7 @@ class EntityAttachment
     #[ORM\Column(length: 255)]
     private ?string $entityname = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $filepath = null;
 
     #[ORM\Column(length: 255)]

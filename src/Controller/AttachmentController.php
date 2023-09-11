@@ -48,27 +48,35 @@ class AttachmentController extends AbstractController
             $entityManager->persist($attachment);
             $entityManager->flush();
 
-            $this->addFlash('success', 'Pièce jointe téléchargée avec succès.');
 
+            $this->addFlash('success', 'Pièce jointe téléchargée avec succès.');
+//            if ($request->isXmlHttpRequest())
+//            {
+//                return new Response(null, 204);
+//            }
             return $this->redirectToRoute('attachment_list');
         }
        $template = $request->isXmlHttpRequest() ? '_form.html.twig' : 'upload.html.twig';
 
-//        return $this->render('attachment/upload.html.twig', [
-//            'form'=>$form->createView(),
-//        ]);
+
         return $this->render('attachment/' . $template, [
             'form' => $form->createView(),
-        ]);
+        ]
+//            , new Response(
+//            null,
+//                $form->isSubmitted() && !$form->isValid() ? 422 : 200,
+//            )
+        );
 
     }
     #[Route('/attachments', name: 'attachment_list')]
-    public function listAttachment(EntityManagerInterface $entityManager){
+    public function listAttachment(EntityManagerInterface $entityManager, Request $request){
 
         $attachmentRepository = $entityManager->getRepository(EntityAttachment::class);
         $attachments = $attachmentRepository->findAll();
 
-        return $this->render('attachment/list.html.twig', [
+        $template = $request->isXmlHttpRequest() ?'_list.html.twig' : 'list.html.twig';
+        return $this->render('attachment/'.$template, [
             'attachments' => $attachments,
         ]);
     }

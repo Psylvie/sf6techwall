@@ -1,53 +1,35 @@
-{% extends 'template.html.twig' %}
+    {% extends 'template.html.twig' %}
 
-{% block body %}
-<div class="container-fluid mt-4">
+    {% block body %}
+
+    <div class="container-fluid mt-4"
+    {{ stimulus_controller('reload-content',{
+    url:path('attachment_list')}) }}
+            data-action = "modal-form:success->reload-content#refreshContent">
+
     <div class="d-flex flex-row">
         <h1 class="me-3">Liste des Pièces Jointes </h1>
+
+        <!-- "formUrl" indique l'URL à utiliser pour le form - "data-action" déclenche action quand la modal se ferme - exécute 'modal-form#modalHidden'-->
         <div {{ stimulus_controller('modal-form', {
             formUrl: path('upload_attachment')
-        }) }}>
+        }) }}
+        data-action="hidden.bs.modal->modal-form#modalHidden">
+
+            <!-- ouvre la modal  -->
+
             <button
                     class="btn btn-dark"
-                    data-action="modal-form#openModal"
-            >Nouveau</button>
+                    data-action="modal-form#openModal">
+                Nouveau
+            </button>
             {{ include('_modal.html.twig', {
                 modalTitle: 'Ajouter une nouvelle pièce jointe',
             }) }}
         </div>
     </div>
 
-{#    <a href="{{ path('upload_attachment') }}" class="btn btn-dark">NOUVEAU</a>#}
-
-    <table>
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Nom</th>
-            <th>Type</th>
-            <th>ID de la personne</th>
-            <th>Nom de la personne</th>
-            <th>Fichier</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for attachment in attachments %}
-            <tr>
-                <td>{{ attachment.id }}</td>
-                <td>{{ attachment.description }}</td>
-                <td>{{ attachment.type }}</td>
-                <td>{{ attachment.entityId }}</td>
-                <td>{{ attachment.entityname }}</td>
-                <td>{{ attachment.filepath }}</td>
-                <td>
-                    <a href="{{ path('attachment.delete', {'id': attachment.id}) }}" class="btn btn-danger">Delete</a>
-                    <a href="{{ path('attachment.download', {'id': attachment.id}) }}" class="btn btn-dark">Download</a>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+        {{ include('attachment/_list.html.twig') }}
 </div>>
 {% endblock %}
 
